@@ -119,23 +119,30 @@ function RootComponent() {
 
   useEffect(() => {
     const s = loadSettings();
-    if (s.theme === "dark") document.documentElement.classList.add("dark");
+    if (s.theme === "light") document.documentElement.classList.add("light");
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <SidebarProvider>
-        <div className="flex min-h-screen w-full bg-background">
+        <div className="flex min-h-screen w-full">
           <AppSidebar />
           <div className="flex flex-1 flex-col">
-            <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur">
-              <SidebarTrigger />
+            <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-border/60 bg-background/60 px-4 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <SidebarTrigger className="rounded-full" />
+                <div className="hidden items-center gap-1.5 rounded-full border border-border/60 bg-muted/40 px-3 py-1 text-xs text-muted-foreground sm:flex">
+                  <Sparkles className="h-3 w-3 text-primary" />
+                  Powered by Lovable AI
+                </div>
+              </div>
               <ThemeToggle />
             </header>
             <main className="flex-1 p-4 md:p-8">
               <Outlet />
             </main>
           </div>
+          <FloatingChat />
         </div>
         <Toaster />
       </SidebarProvider>
