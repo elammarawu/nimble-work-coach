@@ -16,6 +16,8 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/sonner";
 import { loadSettings } from "@/lib/storage";
+import { FloatingChat } from "@/components/floating-chat";
+import { Sparkles } from "lucide-react";
 
 function NotFoundComponent() {
   return (
