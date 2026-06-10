@@ -150,6 +150,10 @@
   background: var(--gradient-brand);
 }
 
+@utility gradient-bg-soft {
+  background: var(--gradient-brand-soft);
+}
+
 @utility glass {
   background: color-mix(in oklab, var(--card) 60%, transparent);
   backdrop-filter: blur(12px) saturate(140%);
