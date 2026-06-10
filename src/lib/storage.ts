@@ -10,7 +10,7 @@ const SETTINGS_KEY = "pai.settings";
 const HISTORY_KEY = "pai.history";
 
 export const defaultSettings: Settings = {
-  theme: "light",
+  theme: "dark",
   model: "google/gemini-3-flash-preview",
   tokenSaver: true,
 };
@@ -70,7 +70,6 @@ export function toggleFavorite(id: string) {
   saveHistory(items);
 }
 
-// Simple in-memory cache to reuse identical prompts within a session.
 const cache = new Map<string, string>();
 export function cacheKey(feature: string, input: string) {
   return `${feature}::${input}`;
