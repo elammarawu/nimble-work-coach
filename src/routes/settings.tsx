@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,8 @@ import { loadSettings, saveSettings, defaultSettings, type Settings } from "@/li
 import { applyTheme } from "@/components/theme-toggle";
 import { toast } from "sonner";
 import { AIDisclaimer } from "@/components/ai-disclaimer";
+import { PageHero } from "@/components/page-hero";
+import { Settings as SettingsIcon, Trash2, Cpu, Zap, Moon } from "lucide-react";
 
 export const Route = createFileRoute("/settings")({
   component: SettingsPage,
@@ -24,7 +25,6 @@ const MODELS = [
 
 function SettingsPage() {
   const [s, setS] = useState<Settings>(defaultSettings);
-
   useEffect(() => setS(loadSettings()), []);
 
   function update<K extends keyof Settings>(k: K, v: Settings[K]) {
@@ -41,80 +41,72 @@ function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Settings & About</h1>
-        <p className="text-sm text-muted-foreground">Customize your Productivity AI experience.</p>
+    <div className="mx-auto max-w-3xl space-y-6 animate-fade-in">
+      <PageHero
+        icon={<SettingsIcon className="h-6 w-6" />}
+        title="Settings"
+        subtitle="Customize your AI experience and manage local data."
+        badge="Preferences"
+      />
+
+      <SettingCard icon={<Moon className="h-4 w-4" />} title="Appearance" description="Switch between light and dark themes.">
+        <div className="flex items-center justify-between">
+          <Label>Dark mode</Label>
+          <Switch checked={s.theme === "dark"} onCheckedChange={(v) => update("theme", v ? "dark" : "light")} />
+        </div>
+      </SettingCard>
+
+      <SettingCard icon={<Cpu className="h-4 w-4" />} title="AI model" description="Choose the model used by all AI features.">
+        <Select value={s.model} onValueChange={(v) => update("model", v)}>
+          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectContent>
+            {MODELS.map((m) => <SelectItem key={m.id} value={m.id}>{m.label}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </SettingCard>
+
+      <SettingCard icon={<Zap className="h-4 w-4" />} title="Token-saving mode" description="Caps responses at ~400 tokens to reduce cost.">
+        <div className="flex items-center justify-between">
+          <Label>Enabled</Label>
+          <Switch checked={s.tokenSaver} onCheckedChange={(v) => update("tokenSaver", v)} />
+        </div>
+      </SettingCard>
+
+      <SettingCard icon={<Trash2 className="h-4 w-4" />} title="Local data" description="History is stored only in your browser.">
+        <Button variant="outline" onClick={clearHistory} className="rounded-full">
+          <Trash2 className="mr-2 h-4 w-4" /> Clear local history
+        </Button>
+      </SettingCard>
+
+      <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-soft">
+        <h3 className="text-sm font-semibold">About Productivity AI</h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          A lightweight workplace assistant for emails, meetings, planning, and research. Built with short
+          prompts, response caching, and token caps to stay efficient and low-cost.
+        </p>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Built with React, TanStack Start, Tailwind CSS, and the Lovable AI Gateway.
+        </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Preferences</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <Label>Dark mode</Label>
-              <p className="text-xs text-muted-foreground">Toggle between light and dark themes.</p>
-            </div>
-            <Switch
-              checked={s.theme === "dark"}
-              onCheckedChange={(v) => update("theme", v ? "dark" : "light")}
-            />
-          </div>
-
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex-1">
-              <Label>AI model</Label>
-              <p className="text-xs text-muted-foreground">Used for all AI features.</p>
-            </div>
-            <div className="w-64">
-              <Select value={s.model} onValueChange={(v) => update("model", v)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {MODELS.map((m) => (
-                    <SelectItem key={m.id} value={m.id}>{m.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div>
-              <Label>Token-saving mode</Label>
-              <p className="text-xs text-muted-foreground">Caps responses at ~400 tokens to reduce cost.</p>
-            </div>
-            <Switch checked={s.tokenSaver} onCheckedChange={(v) => update("tokenSaver", v)} />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Data</CardTitle>
-          <CardDescription>All history is stored locally in your browser.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" onClick={clearHistory}>Clear local history</Button>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">About Productivity AI</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>
-            Productivity AI is a lightweight workplace assistant for drafting emails, summarizing meetings,
-            planning tasks, and quick research. It uses short prompts, response caching, and token caps to
-            stay efficient and low-cost.
-          </p>
-          <p>Built with React, TanStack Start, Tailwind CSS, and the Lovable AI Gateway.</p>
-        </CardContent>
-      </Card>
-
       <AIDisclaimer />
+    </div>
+  );
+}
+
+function SettingCard({ icon, title, description, children }: { icon: React.ReactNode; title: string; description: string; children: React.ReactNode }) {
+  return (
+    <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-soft">
+      <div className="mb-4 flex items-start gap-3">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-bg-soft text-primary">
+          {icon}
+        </div>
+        <div className="min-w-0 flex-1">
+          <h3 className="text-sm font-semibold">{title}</h3>
+          <p className="text-xs text-muted-foreground">{description}</p>
+        </div>
+      </div>
+      {children}
     </div>
   );
 }
