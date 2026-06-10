@@ -5,12 +5,13 @@ import { loadSettings, saveSettings } from "@/lib/storage";
 
 export function applyTheme(theme: "light" | "dark") {
   const root = document.documentElement;
-  if (theme === "dark") root.classList.add("dark");
-  else root.classList.remove("dark");
+  // Dark is default. Light is opt-in via .light class.
+  if (theme === "light") root.classList.add("light");
+  else root.classList.remove("light");
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   useEffect(() => {
     const s = loadSettings();
@@ -26,7 +27,7 @@ export function ThemeToggle() {
   }
 
   return (
-    <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
+    <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme" className="rounded-full">
       {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </Button>
   );

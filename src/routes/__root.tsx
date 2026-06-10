@@ -16,6 +16,8 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/sonner";
 import { loadSettings } from "@/lib/storage";
+import { FloatingChat } from "@/components/floating-chat";
+import { Sparkles } from "lucide-react";
 
 function NotFoundComponent() {
   return (
@@ -85,7 +87,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Productivity AI — Workplace Assistant" },
       { name: "description", content: "AI-powered assistant for emails, meeting notes, task planning, and research." },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -112,23 +119,30 @@ function RootComponent() {
 
   useEffect(() => {
     const s = loadSettings();
-    if (s.theme === "dark") document.documentElement.classList.add("dark");
+    if (s.theme === "light") document.documentElement.classList.add("light");
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <SidebarProvider>
-        <div className="flex min-h-screen w-full bg-background">
+        <div className="flex min-h-screen w-full">
           <AppSidebar />
           <div className="flex flex-1 flex-col">
-            <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur">
-              <SidebarTrigger />
+            <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-border/60 bg-background/60 px-4 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <SidebarTrigger className="rounded-full" />
+                <div className="hidden items-center gap-1.5 rounded-full border border-border/60 bg-muted/40 px-3 py-1 text-xs text-muted-foreground sm:flex">
+                  <Sparkles className="h-3 w-3 text-primary" />
+                  Powered by Lovable AI
+                </div>
+              </div>
               <ThemeToggle />
             </header>
             <main className="flex-1 p-4 md:p-8">
               <Outlet />
             </main>
           </div>
+          <FloatingChat />
         </div>
         <Toaster />
       </SidebarProvider>
