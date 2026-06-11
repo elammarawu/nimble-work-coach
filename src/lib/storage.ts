@@ -70,6 +70,14 @@ export function toggleFavorite(id: string) {
   saveHistory(items);
 }
 
+export function deleteHistory(id: string) {
+  saveHistory(loadHistory().filter((i) => i.id !== id));
+}
+
+export function clearHistory() {
+  localStorage.removeItem(HISTORY_KEY);
+}
+
 const cache = new Map<string, string>();
 export function cacheKey(feature: string, input: string) {
   return `${feature}::${input}`;
