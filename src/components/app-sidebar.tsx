@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Mail, FileText, ListChecks, Lightbulb, Settings, Bot, MessageSquare, Info } from "lucide-react";
+import { LayoutDashboard, Mail, FileText, ListChecks, Lightbulb, Settings, Bot, MessageSquare, Info, History } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -20,6 +20,7 @@ const items = [
   { title: "Meeting Summarizer", url: "/meeting", icon: FileText },
   { title: "Task Planner", url: "/tasks", icon: ListChecks },
   { title: "Research", url: "/research", icon: Lightbulb },
+  { title: "History", url: "/history", icon: History },
   { title: "About", url: "/about", icon: Info },
 ];
 
