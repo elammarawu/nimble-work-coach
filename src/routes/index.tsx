@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, FileText, ListChecks, Lightbulb, ArrowUpRight, Sparkles, Zap, Clock, TrendingUp } from "lucide-react";
+import { Mail, FileText, ListChecks, Lightbulb, ArrowUpRight, Sparkles, Zap, Clock, TrendingUp, Bot } from "lucide-react";
 import { useEffect, useState } from "react";
 import { loadHistory, type HistoryItem } from "@/lib/storage";
 import { AIDisclaimer } from "@/components/ai-disclaimer";
@@ -9,6 +9,7 @@ export const Route = createFileRoute("/")({
 });
 
 const features = [
+  { title: "AI Chat", desc: "Conversational assistant for quick questions", url: "/chat", icon: Bot, accent: "from-pink-500 to-rose-500" },
   { title: "Email Generator", desc: "Draft polished emails in seconds", url: "/email", icon: Mail, accent: "from-blue-500 to-cyan-500" },
   { title: "Meeting Summarizer", desc: "Turn notes into action items", url: "/meeting", icon: FileText, accent: "from-violet-500 to-fuchsia-500" },
   { title: "Task Planner", desc: "Prioritize and schedule your day", url: "/tasks", icon: ListChecks, accent: "from-emerald-500 to-teal-500" },
@@ -45,23 +46,29 @@ function Dashboard() {
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> All systems ready
           </span>
           <h1 className="mt-4 text-3xl sm:text-5xl font-bold tracking-tight">
-            Work smarter with <span className="gradient-text">Productivity AI</span>
+            <span className="gradient-text">AI Workplace</span> Productivity Assistant
           </h1>
           <p className="mt-3 max-w-2xl text-sm sm:text-base text-muted-foreground">
-            Your premium workplace assistant for emails, meetings, planning, and research — built to keep you focused and your costs low.
+            Automate routine work — emails, meeting notes, planning, research, and chat — in one premium dashboard, built to stay fast and low-cost.
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
             <Link
-              to="/email"
+              to="/chat"
               className="inline-flex items-center gap-1.5 rounded-full gradient-bg px-4 py-2 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"
             >
-              <Sparkles className="h-4 w-4" /> Try Email Generator
+              <Sparkles className="h-4 w-4" /> Start chatting
             </Link>
             <Link
               to="/tasks"
               className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-4 py-2 text-sm font-medium backdrop-blur transition-colors hover:bg-accent"
             >
               Plan my day
+            </Link>
+            <Link
+              to="/about"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-4 py-2 text-sm font-medium backdrop-blur transition-colors hover:bg-accent"
+            >
+              Project overview
             </Link>
           </div>
         </div>
