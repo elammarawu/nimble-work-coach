@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, FileText, ListChecks, Lightbulb, ArrowUpRight, Sparkles, Zap, Clock, TrendingUp } from "lucide-react";
+import { Mail, FileText, ListChecks, Lightbulb, ArrowUpRight, Sparkles, Zap, Clock, TrendingUp, Bot } from "lucide-react";
 import { useEffect, useState } from "react";
 import { loadHistory, type HistoryItem } from "@/lib/storage";
 import { AIDisclaimer } from "@/components/ai-disclaimer";
@@ -9,6 +9,7 @@ export const Route = createFileRoute("/")({
 });
 
 const features = [
+  { title: "AI Chat", desc: "Conversational assistant for quick questions", url: "/chat", icon: Bot, accent: "from-pink-500 to-rose-500" },
   { title: "Email Generator", desc: "Draft polished emails in seconds", url: "/email", icon: Mail, accent: "from-blue-500 to-cyan-500" },
   { title: "Meeting Summarizer", desc: "Turn notes into action items", url: "/meeting", icon: FileText, accent: "from-violet-500 to-fuchsia-500" },
   { title: "Task Planner", desc: "Prioritize and schedule your day", url: "/tasks", icon: ListChecks, accent: "from-emerald-500 to-teal-500" },
